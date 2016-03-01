@@ -9,5 +9,6 @@ namespace Exjobb.Shared.Constants
     public class Product
     {
         public const string EntityTypeId = "Product";
+        public const string ProductCategoryFieldId = "ProductCategory";
     }
 }

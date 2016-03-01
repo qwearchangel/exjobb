@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Exjobb
 {
-    public class ProductHandler : IProductHandler
+    public interface IDataHandler
     {
-        public void CreateOrLinkNode(Entity product)
-        {
-
-        }
-
+        Entity UpdateEntity(int entityId, string[] fieldTypeIds);
     }
 }

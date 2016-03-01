@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityListener.cs" />
-    <Compile Include="IProductHandler.cs" />
-    <Compile Include="ProductHandler.cs" />
+    <Compile Include="Listener.cs" />
+    <Compile Include="IDataHandler.cs" />
+    <Compile Include="DataHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
