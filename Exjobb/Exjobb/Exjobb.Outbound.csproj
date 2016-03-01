@@ -47,7 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityListener.cs" />
+    <Compile Include="IProductHandler.cs" />
+    <Compile Include="ProductHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Exjobb.Shared\Exjobb.Shared.csproj">
+      <Project>{56b3bd42-116a-4c2f-9f01-391f7f593979}</Project>
+      <Name>Exjobb.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
