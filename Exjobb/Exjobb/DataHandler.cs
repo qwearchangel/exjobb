@@ -15,11 +15,27 @@ namespace Exjobb
         {
         }
 
-        public Entity UpdateEntity(int entityId, string[] fieldTypeIds)
+        public Entity UpdateEntity(Entity storedEntity, string[] fieldTypeIds)
         {
-            var entity = RemoteManager.DataService.GetEntity(entityId, LoadLevel.DataAndLinks);
+            var updatedFieldsEntity = new Entity
+            {
+                EntityType = storedEntity.EntityType,
+                Fields = GetUpdatedFields(storedEntity, fieldTypeIds),
+            };
+            updatedFieldsEntity.DisplayName = storedEntity.DisplayName;
+                        
+            return updatedFieldsEntity;
+        }
 
-            return null;
+        private List<Field> GetUpdatedFields(Entity storedEntity, string[] fieldTypeIds)
+        {
+            var fieldList = new List<Field>();
+            foreach (var fieldTypeId in fieldTypeIds)
+            {
+                fieldList.Add(new Field { FieldType = new FieldType { Id = fieldTypeId }, Data = storedEntity.GetField(fieldTypeId).Data });
+            }
+
+            return fieldList;
         }
     }
 }

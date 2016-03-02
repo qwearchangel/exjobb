@@ -9,6 +9,6 @@ namespace Exjobb
 {
     public interface IDataHandler
     {
-        Entity UpdateEntity(int entityId, string[] fieldTypeIds);
+        Entity UpdateEntity(Entity entity, string[] fieldTypeIds);
     }
 }

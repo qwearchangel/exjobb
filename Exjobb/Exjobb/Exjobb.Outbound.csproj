@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMessageHandler.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="IDataHandler.cs" />
     <Compile Include="DataHandler.cs" />
+    <Compile Include="MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
