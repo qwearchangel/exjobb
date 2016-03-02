@@ -11,6 +11,10 @@ namespace Exjobb
 {
     public class DataHandler : IDataHandler
     {
+        public DataHandler()
+        {
+        }
+
         public Entity UpdateEntity(int entityId, string[] fieldTypeIds)
         {
             var entity = RemoteManager.DataService.GetEntity(entityId, LoadLevel.DataAndLinks);
