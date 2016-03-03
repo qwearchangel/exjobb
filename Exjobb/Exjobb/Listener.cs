@@ -112,13 +112,14 @@ namespace Exjobb
 
         public void ChannelLinkAdded(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
-            // Here
+            var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
+            _messageHandler.SendLinkMessage(entity);
         }
 
         public void ChannelLinkDeleted(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
-
-            // Here
+            var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
+            _messageHandler.SendUnlinkMessage(entity);
         }
 
         public void ChannelLinkUpdated(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)

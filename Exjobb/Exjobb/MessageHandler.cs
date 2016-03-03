@@ -18,12 +18,12 @@ namespace Exjobb
 
         public void SendLinkMessage(Entity entity)
         {
-            throw new NotImplementedException();
+            CreateAndSendMessage(entity, Operation.Link);
         }
 
         public void SendUnlinkMessage(Entity entity)
         {
-            throw new NotImplementedException();
+            CreateAndSendMessage(entity, Operation.UnLink);
         }
 
         public void SendUpdateMessage(Entity entity)
@@ -53,10 +53,7 @@ namespace Exjobb
                 fileName = (string)entity.DisplayName.Data;
             }
 
-            doc.Save(
-                filePath
-                + fileName
-                + fileType);
+            doc.Save(filePath + fileName + fileType);
         }
     }
 }
