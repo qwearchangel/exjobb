@@ -16,7 +16,7 @@ namespace Exjobb
         public void ExportResource(Entity resource)
         {
             var resourceFile = RemoteManager.UtilityService.GetFile((int)resource.GetField(Resource.FileIdFieldId).Data, ImageConfiguration.Original);
-
+            //TODO: Fix resource export. Above is a byte array.
             Directory.CreateDirectory(filePath);
             File.Create(filePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType);
         }

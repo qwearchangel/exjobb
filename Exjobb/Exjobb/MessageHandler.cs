@@ -57,7 +57,7 @@ namespace Exjobb
                 fileName = (string)entity.DisplayName.Data;
             }
             Directory.CreateDirectory(filePath);
-            doc.Save(filePath + fileName + fileType + entity.EntityType.Id);
+            doc.Save(filePath + fileName + fileType);
         }
     }
 }
