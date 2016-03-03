@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ChannelNode.cs" />
+    <Compile Include="Constants\Operation.cs" />
     <Compile Include="Constants\Product.cs" />
     <Compile Include="Constants\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

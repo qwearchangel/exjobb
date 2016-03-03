@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using inRiver.Remoting.Objects;
-using System.Xml;
 using System.Xml.Linq;
+using Exjobb.Shared.Constants;
 
 namespace Exjobb
 {
@@ -31,17 +28,20 @@ namespace Exjobb
 
         public void SendUpdateMessage(Entity entity)
         {
-            CreateAndSendMessage(entity, "update");
+            CreateAndSendMessage(entity, Operation.Update);
         }
 
         private void CreateAndSendMessage(Entity entity, string operation)
         {
-            XDocument doc = new XDocument
-                (
-                new XDeclaration("1.0", "utf-8", null),
-                new XElement(entity.EntityType.Id,
-                entity.Fields.Select(field => new XElement(field.FieldType.Id, field.Data)))
-                );
+            XDocument doc = 
+                new XDocument(
+                    new XDeclaration("1.0", "utf-8", null),
+                        new XElement(entity.EntityType.Id,
+                        new XElement("Operation", operation),
+                        new XElement("Fields",
+                        entity.Fields.Select(field => new XElement(field.FieldType.Id, field.Data)))
+                        )
+                    );
 
             doc.Save(filePath + (string)entity.DisplayName.Data + fileType);
         }
