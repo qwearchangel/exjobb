@@ -3,6 +3,7 @@ using System.Linq;
 using inRiver.Remoting.Objects;
 using System.Xml.Linq;
 using Exjobb.Shared.Constants;
+using System.IO;
 
 namespace Exjobb
 {
@@ -33,10 +34,11 @@ namespace Exjobb
 
         private void CreateAndSendMessage(Entity entity, string operation)
         {
-            XDocument doc = 
+            XDocument doc =
                 new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
-                        new XElement(entity.EntityType.Id,
+                        new XElement("Data",
+                        new XElement("DataType", entity.EntityType.Id),
                         new XElement("Operation", operation),
                         new XElement("Fields",
                         entity.Fields.Select(field => new XElement(field.FieldType.Id, field.Data)))
@@ -46,14 +48,16 @@ namespace Exjobb
             string fileName;
             if (entity.DisplayName  == null)
             {
-                fileName = (string)entity.GetField(Product.IdFieldId).Data;
+                fileName = (string)entity.GetField(
+                    entity.EntityType.Id == Product.EntityTypeId ? Product.IdFieldId : Item.IdFieldId)
+                    .Data;
             }
             else
             {
                 fileName = (string)entity.DisplayName.Data;
             }
-
-            doc.Save(filePath + fileName + fileType);
+            Directory.CreateDirectory(filePath);
+            doc.Save(filePath + fileName + fileType + entity.EntityType.Id);
         }
     }
 }

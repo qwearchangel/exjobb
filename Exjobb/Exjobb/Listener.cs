@@ -10,6 +10,7 @@ using Exjobb.Shared.Constants;
 using inRiver.Integration.Reporting;
 using inRiver.Integration.Configuration;
 using inRiver.Integration.Export;
+using inRiver.Remoting.Query;
 
 namespace Exjobb
 {
@@ -17,21 +18,24 @@ namespace Exjobb
     {
         private IDataHandler _dataHandler;
         private IMessageHandler _messageHandler;
+        private IResourceHandler _resourceHandler;
 
         public Listener() :
             this(
             new DataHandler(),
-            new MessageHandler())
+            new MessageHandler(),
+            new ResourceHandler())
         {
-
         }
 
         public Listener(
             IDataHandler dataHandler,
-            IMessageHandler messageHandler)
+            IMessageHandler messageHandler,
+            IResourceHandler resourceHandler)
         {
             _dataHandler = dataHandler;
             _messageHandler = messageHandler;
+            _resourceHandler = resourceHandler;
         }
 
         private bool _isStarted;
@@ -112,8 +116,25 @@ namespace Exjobb
 
         public void ChannelLinkAdded(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
-            var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
-            _messageHandler.SendLinkMessage(entity);
+            var targetEntity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
+
+            if (targetEntity.EntityType.Id == Resource.EntityTypeId)
+            {
+                var sourceEntity = RemoteManager.DataService.GetEntity(sourceEntityId, LoadLevel.DataOnly);
+                if (sourceEntity.EntityType.Id == Product.EntityTypeId)
+                {
+                    targetEntity.GetField(Resource.FileNameFieldId).Data = sourceEntity.GetField(Product.IdFieldId).Data;
+                }
+                if (sourceEntity.EntityType.Id == Item.EntityTypeId)
+                {
+                    targetEntity.GetField(Resource.FileNameFieldId).Data = sourceEntity.GetField(Item.IdFieldId).Data;
+                }
+                
+                RemoteManager.DataService.UpdateEntity(targetEntity);
+
+                _resourceHandler.ExportResource(targetEntity);
+            }
+            _messageHandler.SendLinkMessage(targetEntity);
         }
 
         public void ChannelLinkDeleted(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)

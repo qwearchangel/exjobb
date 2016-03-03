@@ -47,11 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMessageHandler.cs" />
+    <Compile Include="IResourceHandler.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="IDataHandler.cs" />
     <Compile Include="DataHandler.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Exjobb.Shared\Exjobb.Shared.csproj">
