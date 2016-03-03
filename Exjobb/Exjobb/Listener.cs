@@ -91,12 +91,11 @@ namespace Exjobb
             }
 
             _messageHandler.SendUpdateMessage(entity);
-
         }
 
         public void ChannelEntityDeleted(int channelId, Entity deletedEntity)
         {
-            // Here
+            _messageHandler.SendDeleteMessage(deletedEntity);
         }
 
         public void ChannelEntityFieldSetUpdated(int channelId, int entityId, string fieldSetId)

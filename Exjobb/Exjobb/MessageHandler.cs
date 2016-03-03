@@ -13,7 +13,7 @@ namespace Exjobb
 
         public void SendDeleteMessage(Entity entity)
         {
-            throw new NotImplementedException();
+            CreateAndSendMessage(entity, Operation.Delete);
         }
 
         public void SendLinkMessage(Entity entity)
@@ -43,7 +43,20 @@ namespace Exjobb
                         )
                     );
 
-            doc.Save(filePath + (string)entity.DisplayName.Data + fileType);
+            string fileName;
+            if (entity.DisplayName  == null)
+            {
+                fileName = (string)entity.GetField(Product.IdFieldId).Data;
+            }
+            else
+            {
+                fileName = (string)entity.DisplayName.Data;
+            }
+
+            doc.Save(
+                filePath
+                + fileName
+                + fileType);
         }
     }
 }
