@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using inRiver.Remoting.Objects;
 using System.Xml.Linq;
 using Exjobb.Shared.Constants;
@@ -57,7 +56,7 @@ namespace Exjobb
                 fileName = (string)entity.DisplayName.Data;
             }
             Directory.CreateDirectory(filePath);
-            doc.Save(filePath + fileName + fileType + entity.EntityType.Id);
+            doc.Save(filePath + fileName + fileType);
         }
     }
 }
