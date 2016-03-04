@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using inRiver.Remoting.Objects;
 using System.Xml.Linq;
 using Exjobb.Shared.Constants;

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Exjobb.Shared.Constants
+﻿namespace Exjobb.Shared.Constants
 {
     public class ChannelNode
     {
-        public const string ChannelNodeProductLinkType = "ChannelNodeProduct";
-        public const string NodeIdFieldId = "NodeId";
+        public const string ProductLinkType = "ChannelNodeProduct";
+        public const string IdFieldId = "NodeId";
     }
 }

@@ -1,14 +1,10 @@
 ﻿using inRiver.Integration.Interface;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using inRiver.Remoting.Objects;
 using inRiver.Remoting;
 using Exjobb.Shared.Constants;
 using inRiver.Integration.Reporting;
-using inRiver.Integration.Configuration;
 using inRiver.Integration.Export;
 using inRiver.Remoting.Query;
 
@@ -153,14 +149,17 @@ namespace Exjobb
             if (entity.EntityType.Id == Product.EntityTypeId)
             {
                 LinkProductToNode(entity);
+                return;
             }
             if (entity.EntityType.Id == Item.EntityTypeId)
             {
                 LinkItemToProduct(entity);
+                return;
             }
             if (entity.EntityType.Id == Resource.EntityTypeId)
             {
                 LinkResourceToProductOrItem(entity);
+                return;
             }
         }
 
@@ -243,7 +242,7 @@ namespace Exjobb
 
             var nodeList = RemoteManager.DataService.Search(new Criteria
             {
-                FieldTypeId = ChannelNode.NodeIdFieldId,
+                FieldTypeId = ChannelNode.IdFieldId,
                 Operator = Operator.Equal,
                 Value = nodeName
             },
@@ -251,7 +250,7 @@ namespace Exjobb
 
             Link link = new Link
             {
-                LinkType = new LinkType { Id = Product.ItemLinkTypeId },
+                LinkType = new LinkType { Id = ChannelNode.ProductLinkType },
                 Source = nodeList[0],
                 Target = entity
             };
@@ -260,11 +259,16 @@ namespace Exjobb
 
         private void LinkResourceToProductOrItem(Entity entity)
         {
+            if (!entity.Fields.Any())
+            {
+                return;
+            }
+
             var resourceNameId = ((string)entity.GetField(Resource.FileNameFieldId).Data).Substring(0, 10);
 
             var resouceId = new string(resourceNameId.Where(Char.IsDigit).ToArray());
 
-            var productOrItemId = resouceId.Remove(resouceId.Length, -2);
+            var productOrItemId = resouceId.Remove(resouceId.Length -2) ;
 
             var sourceEntity = new Entity();
             var linkType = new LinkType();
