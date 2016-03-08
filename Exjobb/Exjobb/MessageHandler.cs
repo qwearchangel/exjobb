@@ -23,7 +23,7 @@ namespace Exjobb
 
         public void SendUnlinkMessage(Entity entity)
         {
-            CreateAndSendMessage(entity, Operation.UnLink);
+            CreateAndSendMessage(entity, Operation.Delete);
         }
 
         public void SendUpdateMessage(Entity entity)
