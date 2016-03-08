@@ -204,7 +204,7 @@ namespace Exjobb
                 return;
             }
 
-            var productId = ((string)entity.GetField(Item.IdFieldId).Data).Substring(0, 6);
+            var productId = (entity.GetField(Item.IdFieldId).Data.ToString()).Substring(0, 6);
             if (string.IsNullOrWhiteSpace(productId))
             {
                 return;
@@ -213,7 +213,7 @@ namespace Exjobb
             var productList = RemoteManager.DataService.Search(new Criteria
             {
                 FieldTypeId = Product.IdFieldId,
-                Operator = Operator.BeginsWith,
+                Operator = Operator.Equal,
                 Value = productId
             },
             LoadLevel.Shallow);
@@ -278,7 +278,7 @@ namespace Exjobb
                 {
                     FieldTypeId = Product.IdFieldId,
                     Operator = Operator.BeginsWith,
-                    Value = productOrItemId
+                    Value = int.Parse(productOrItemId)
                 },
                 LoadLevel.Shallow);
                 sourceEntity = productEntities[0];
@@ -290,7 +290,7 @@ namespace Exjobb
                 {
                     FieldTypeId = Item.IdFieldId,
                     Operator = Operator.BeginsWith,
-                    Value = productOrItemId
+                    Value = int.Parse(productOrItemId)
                 },
                 LoadLevel.Shallow);
                 sourceEntity = itemEntities[0];

@@ -47,13 +47,13 @@ namespace Exjobb
             string fileName;
             if (entity.DisplayName  == null)
             {
-                fileName = (string)entity.GetField(
+                fileName = entity.GetField(
                     entity.EntityType.Id == Product.EntityTypeId ? Product.IdFieldId : Item.IdFieldId)
-                    .Data;
+                    .Data.ToString();
             }
             else
             {
-                fileName = (string)entity.DisplayName.Data;
+                fileName = entity.DisplayName.Data.ToString();
             }
             Directory.CreateDirectory(filePath);
             doc.Save(filePath + fileName + fileType);
