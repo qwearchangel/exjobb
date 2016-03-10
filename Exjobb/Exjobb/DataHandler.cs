@@ -1,5 +1,6 @@
 ﻿using inRiver.Remoting.Objects;
 using System.Collections.Generic;
+using Exjobb.Shared.Constants;
 
 namespace Exjobb
 {
@@ -21,8 +22,19 @@ namespace Exjobb
             return updatedFieldsEntity;
         }
 
-        private List<Field> GetUpdatedFields(Entity storedEntity, string[] fieldTypeIds)
+        private List<Field> GetUpdatedFields(Entity storedEntity, string[] fieldTypeIdsArray)
         {
+            var fieldTypeIds = new List<string>();
+            foreach (var fieldType in fieldTypeIdsArray)
+            {
+                fieldTypeIds.Add(fieldType);
+            }
+
+            if (!fieldTypeIds.Contains("Id"))
+            {
+                fieldTypeIds.Add(storedEntity.EntityType.Id == Product.EntityTypeId ? Product.IdFieldId : Item.IdFieldId);
+            }
+
             var fieldList = new List<Field>();
             foreach (var fieldTypeId in fieldTypeIds)
             {
