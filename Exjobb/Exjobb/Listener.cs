@@ -7,6 +7,7 @@ using Exjobb.Shared.Constants;
 using inRiver.Integration.Reporting;
 using inRiver.Integration.Export;
 using inRiver.Remoting.Query;
+using inRiver.Integration.Configuration;
 
 namespace Exjobb
 {
@@ -54,6 +55,9 @@ namespace Exjobb
 
         public override void InitConfigurationSettings()
         {
+            base.InitConfigurationSettings();
+            ConfigurationManager.Instance.SetConnectorSetting(Id, Setting.ImageExportSettingKey, @"C:\temp\image");
+            ConfigurationManager.Instance.SetConnectorSetting(Id, Setting.XmlExportSettingKey, @"C:\temp\");
         }
 
         // Channel -------------------------------------------------------------------
@@ -89,13 +93,14 @@ namespace Exjobb
             {
                 return;
             }
-
-            _messageHandler.SendUpdateMessage(entity);
+            string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
+            _messageHandler.SendUpdateMessage(entity, filePath);
         }
 
         public void ChannelEntityDeleted(int channelId, Entity deletedEntity)
         {
-            _messageHandler.SendDeleteMessage(deletedEntity);
+            string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
+            _messageHandler.SendDeleteMessage(deletedEntity, filePath);
         }
 
         public void ChannelEntityFieldSetUpdated(int channelId, int entityId, string fieldSetId)
@@ -116,16 +121,19 @@ namespace Exjobb
 
             if (targetEntity.EntityType.Id == Resource.EntityTypeId)
             {
-                _resourceHandler.ExportResource(targetEntity);
+                string imagePath = ConfigurationManager.Instance.GetSetting(Id, Setting.ImageExportSettingKey);
+                _resourceHandler.ExportResource(targetEntity, imagePath);
             }
 
-            _messageHandler.SendLinkMessage(targetEntity);
+            string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
+            _messageHandler.SendLinkMessage(targetEntity, filePath);
         }
 
         public void ChannelLinkDeleted(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
             var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
-            _messageHandler.SendUnlinkMessage(entity);
+            string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
+            _messageHandler.SendUnlinkMessage(entity, filePath);
         }
 
         public void ChannelLinkUpdated(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
@@ -158,7 +166,7 @@ namespace Exjobb
             }
             if (entity.EntityType.Id == Resource.EntityTypeId)
             {
-                LinkResourceToProductOrItem(entity);
+                LinkResourceToItem(entity);
                 return;
             }
         }
@@ -257,7 +265,7 @@ namespace Exjobb
             RemoteManager.DataService.AddLinkLast(link);
         }
 
-        private void LinkResourceToProductOrItem(Entity entity)
+        private void LinkResourceToItem(Entity entity)
         {
             if (!entity.Fields.Any())
             {
@@ -270,37 +278,25 @@ namespace Exjobb
 
             var productOrItemId = resouceId.Remove(resouceId.Length -2) ;
 
-            var sourceEntity = new Entity();
-            var linkType = new LinkType();
-            if (productOrItemId.Length == 6)
-            {
-                var productEntities = RemoteManager.DataService.Search(new Criteria
-                {
-                    FieldTypeId = Product.IdFieldId,
-                    Operator = Operator.BeginsWith,
-                    Value = int.Parse(productOrItemId)
-                },
-                LoadLevel.Shallow);
-                sourceEntity = productEntities[0];
-                linkType = new LinkType { Id = Product.ResourceLinkTypeId };
-            }
-            else
-            {
-                var itemEntities = RemoteManager.DataService.Search(new Criteria
-                {
-                    FieldTypeId = Item.IdFieldId,
-                    Operator = Operator.BeginsWith,
-                    Value = int.Parse(productOrItemId)
-                },
-                LoadLevel.Shallow);
-                sourceEntity = itemEntities[0];
-                linkType = new LinkType { Id = Item.ResourceLinkTypeId };
-            }
-
-            if (sourceEntity == null || linkType == null)
+            if (productOrItemId.Length != 8)
             {
                 return;
             }
+
+            var itemEntities = RemoteManager.DataService.Search(new Criteria
+            {
+                FieldTypeId = Item.IdFieldId,
+                Operator = Operator.Equal,
+                Value = productOrItemId
+            },
+            LoadLevel.Shallow);
+
+            if (!itemEntities.Any())
+            {
+                return;
+            }
+            var sourceEntity = itemEntities[0];
+            var linkType = new LinkType { Id = Item.ResourceLinkTypeId };
 
             var link = new Link
             {

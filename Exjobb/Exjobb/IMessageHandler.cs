@@ -4,12 +4,12 @@ namespace Exjobb
 {
     public interface IMessageHandler
     {
-        void SendUpdateMessage(Entity entity);
+        void SendUpdateMessage(Entity entity, string filePath);
 
-        void SendUnlinkMessage(Entity entity);
+        void SendUnlinkMessage(Entity entity, string filePath);
 
-        void SendLinkMessage(Entity entity);
+        void SendLinkMessage(Entity entity, string filePath);
 
-        void SendDeleteMessage(Entity entity);
+        void SendDeleteMessage(Entity entity, string filePath);
     }
 }

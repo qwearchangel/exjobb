@@ -4,6 +4,6 @@ namespace Exjobb
 {
     public interface IResourceHandler
     {
-        void ExportResource(Entity resource);
+        void ExportResource(Entity resource, string imagePath);
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Constants\Operation.cs" />
     <Compile Include="Constants\Product.cs" />
     <Compile Include="Constants\Resource.cs" />
+    <Compile Include="Constants\Setting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

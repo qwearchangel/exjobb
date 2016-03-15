@@ -3,35 +3,36 @@ using inRiver.Remoting.Objects;
 using System.Xml.Linq;
 using Exjobb.Shared.Constants;
 using System.IO;
+using inRiver.Remoting;
+using inRiver.Integration.Configuration;
 
 namespace Exjobb
 {
     public class MessageHandler : IMessageHandler
     {
-        private const string filePath = @"C:\temp\";
         private const string fileType = ".xml";
 
-        public void SendDeleteMessage(Entity entity)
+        public void SendDeleteMessage(Entity entity, string filePath)
         {
-            CreateAndSendMessage(entity, Operation.Delete);
+            CreateAndSendMessage(entity, Operation.Delete, filePath);
         }
 
-        public void SendLinkMessage(Entity entity)
+        public void SendLinkMessage(Entity entity, string filePath)
         {
-            CreateAndSendMessage(entity, Operation.Link);
+            CreateAndSendMessage(entity, Operation.Link, filePath);
         }
 
-        public void SendUnlinkMessage(Entity entity)
+        public void SendUnlinkMessage(Entity entity, string filePath)
         {
-            CreateAndSendMessage(entity, Operation.Delete);
+            CreateAndSendMessage(entity, Operation.Delete, filePath);
         }
 
-        public void SendUpdateMessage(Entity entity)
+        public void SendUpdateMessage(Entity entity, string filePath)
         {
-            CreateAndSendMessage(entity, Operation.Update);
+            CreateAndSendMessage(entity, Operation.Update, filePath);
         }
 
-        private void CreateAndSendMessage(Entity entity, string operation)
+        private void CreateAndSendMessage(Entity entity, string operation, string filePath)
         {
             XDocument doc =
                 new XDocument(
@@ -55,6 +56,7 @@ namespace Exjobb
             {
                 fileName = entity.DisplayName.Data.ToString();
             }
+
             Directory.CreateDirectory(filePath);
             doc.Save(filePath + fileName + fileType);
         }

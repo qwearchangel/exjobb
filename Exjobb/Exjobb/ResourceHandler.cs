@@ -8,14 +8,14 @@ namespace Exjobb
 {
     public class ResourceHandler : IResourceHandler
     {
-        private const string filePath = @"C:\temp\images\";
         private const string fileType = ".jpg";
 
-        public void ExportResource(Entity resource)
+        public void ExportResource(Entity resource, string ImagePath)
         {
             var resourceFile = RemoteManager.UtilityService.GetFile((int)resource.GetField(Resource.FileIdFieldId).Data, ImageConfiguration.Original);
+            var filePath = RemoteManager.UtilityService.GetServerSetting(Setting.ImageExportSettingKey);
             Directory.CreateDirectory(filePath);
-            File.WriteAllBytes(filePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType, resourceFile);
+            File.WriteAllBytes(ImagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType, resourceFile);
         }
     }
 }
