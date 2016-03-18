@@ -83,6 +83,11 @@ namespace Exjobb
             var fieldTypeIds = data.Split(',');
             var updatedEntity = RemoteManager.DataService.GetEntity(entityId, LoadLevel.DataOnly);
 
+            if (updatedEntity == null)
+            {
+                return;
+            }
+
             Entity entity = null;
             if (updatedEntity.EntityType.Id != Resource.EntityTypeId)
             {
