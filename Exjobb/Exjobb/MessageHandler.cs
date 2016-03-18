@@ -19,7 +19,6 @@ namespace Exjobb
 
         public void SendLinkMessage(Entity entity, string filePath)
         {
-            entity = RemoteManager.DataService.GetEntity(entity.Id, LoadLevel.DataAndLinks);
             CreateAndSendMessage(entity, Operation.Link, filePath);
             if (entity.OutboundLinks.Any())
             {

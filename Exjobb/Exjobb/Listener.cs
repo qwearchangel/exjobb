@@ -81,7 +81,7 @@ namespace Exjobb
         public void ChannelEntityUpdated(int channelId, int entityId, string data)
         {
             var fieldTypeIds = data.Split(',');
-            var updatedEntity = RemoteManager.DataService.GetEntity(entityId, LoadLevel.DataOnly);
+            var updatedEntity = RemoteManager.DataService.GetEntity(entityId, LoadLevel.DataAndLinks);
 
             if (updatedEntity == null)
             {
