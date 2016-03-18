@@ -10,12 +10,17 @@ namespace Exjobb
     {
         private const string fileType = ".jpg";
 
-        public void ExportResource(Entity resource, string ImagePath)
+        public void DeleteResource(Entity resource, string imagePath)
+        {
+            File.Delete(imagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType);
+        }
+
+        public void ExportResource(Entity resource, string imagePath)
         {
             var resourceFile = RemoteManager.UtilityService.GetFile((int)resource.GetField(Resource.FileIdFieldId).Data, ImageConfiguration.Original);
             var filePath = RemoteManager.UtilityService.GetServerSetting(Setting.ImageExportSettingKey);
             Directory.CreateDirectory(filePath);
-            File.WriteAllBytes(ImagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType, resourceFile);
+            File.WriteAllBytes(imagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType, resourceFile);
         }
     }
 }

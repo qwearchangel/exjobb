@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exjobb.Tests", "Exjobb.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exjobb.Shared", "Exjobb.Shared\Exjobb.Shared.csproj", "{56B3BD42-116A-4C2F-9F01-391F7F593979}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exjobb.Extension", "Exjobb.Extension\Exjobb.Extension.csproj", "{75A2E749-E852-491B-997D-8CD8A8E0264A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{56B3BD42-116A-4C2F-9F01-391F7F593979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56B3BD42-116A-4C2F-9F01-391F7F593979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56B3BD42-116A-4C2F-9F01-391F7F593979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A2E749-E852-491B-997D-8CD8A8E0264A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A2E749-E852-491B-997D-8CD8A8E0264A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A2E749-E852-491B-997D-8CD8A8E0264A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A2E749-E852-491B-997D-8CD8A8E0264A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -105,6 +105,13 @@ namespace Exjobb
         public void ChannelEntityDeleted(int channelId, Entity deletedEntity)
         {
             string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
+            if (deletedEntity.EntityType.Id == Resource.EntityTypeId)
+            {
+                deletedEntity = RemoteManager.DataService.GetEntity(deletedEntity.Id, LoadLevel.DataOnly);
+                string imagePath = ConfigurationManager.Instance.GetSetting(Id, Setting.ImageExportSettingKey);
+                _resourceHandler.DeleteResource(deletedEntity, imagePath);
+                return;
+            }
             _messageHandler.SendDeleteMessage(deletedEntity, filePath);
         }
 
@@ -261,6 +268,11 @@ namespace Exjobb
             },
             LoadLevel.Shallow);
 
+            if (!nodeList.Any())
+            {
+                nodeList.Add(CreateAndLinkNode(nodeName));
+            }
+
             Link link = new Link
             {
                 LinkType = new LinkType { Id = ChannelNode.ProductLinkType },
@@ -327,6 +339,31 @@ namespace Exjobb
             }
 
             return cvlValue.Value.ToString();
+        }
+
+        private Entity CreateAndLinkNode(string nodeName)
+        {
+            var nodeEntityType = RemoteManager.ModelService.GetEntityType(ChannelNode.EntityTypeId);
+
+            var node = Entity.CreateEntity(nodeEntityType);
+            var nodeNameField = node.Fields.Find(f => f.FieldType.Id == ChannelNode.IdFieldId);
+            nodeNameField.Data = nodeName;
+
+            node = RemoteManager.DataService.AddEntity(node);
+
+            var channelId = ConfigurationManager.Instance.GetSetting(Id, Setting.ChannelIdSettingKey);
+
+            var channel = RemoteManager.DataService.GetEntity(int.Parse(channelId), LoadLevel.Shallow);
+
+            var linkType = new LinkType { Id = ChannelNode.ChannelLinkType };
+            var link = new Link
+            {
+                LinkType = linkType,
+                Source = channel,
+                Target = node
+            };
+
+            return node;
         }
     }
 }
