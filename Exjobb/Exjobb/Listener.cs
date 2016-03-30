@@ -129,7 +129,7 @@ namespace Exjobb
 
         public void ChannelLinkAdded(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
-            var targetEntity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
+            var targetEntity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataAndLinks);
 
             if (targetEntity.EntityType.Id == Resource.EntityTypeId)
             {
@@ -143,7 +143,7 @@ namespace Exjobb
 
         public void ChannelLinkDeleted(int channelId, int sourceEntityId, int targetEntityId, string linkTypeId, int? linkEntityId)
         {
-            var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataOnly);
+            var entity = RemoteManager.DataService.GetEntity(targetEntityId, LoadLevel.DataAndLinks);
             string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
             _messageHandler.SendUnlinkMessage(entity, filePath);
         }
@@ -362,6 +362,8 @@ namespace Exjobb
                 Source = channel,
                 Target = node
             };
+
+            RemoteManager.DataService.AddLinkLast(link);
 
             return node;
         }

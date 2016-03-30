@@ -20,17 +20,6 @@ namespace Exjobb
         public void SendLinkMessage(Entity entity, string filePath)
         {
             CreateAndSendMessage(entity, Operation.Link, filePath);
-            if (entity.OutboundLinks.Any())
-            {
-                foreach (var link in entity.OutboundLinks)
-                {
-                    var targetEntity = RemoteManager.DataService.GetEntity(link.Target.Id, LoadLevel.DataOnly);
-                    if (targetEntity.EntityType.Id != Resource.EntityTypeId)
-                    {
-                        CreateAndSendMessage(targetEntity, Operation.Link, filePath);
-                    }
-                }
-            }
         }
 
         public void SendUnlinkMessage(Entity entity, string filePath)
@@ -45,6 +34,12 @@ namespace Exjobb
 
         private void CreateAndSendMessage(Entity entity, string operation, string filePath)
         {
+            if (entity.EntityType.Id == ChannelNode.EntityTypeId)
+            {
+                checkOutboundLinks(entity, operation, filePath);
+                return;
+            }
+
             XDocument doc =
                 new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
@@ -70,6 +65,23 @@ namespace Exjobb
 
             Directory.CreateDirectory(filePath);
             doc.Save(filePath + fileName + fileType);
+
+            checkOutboundLinks(entity, operation, filePath);
+        }
+
+        private void checkOutboundLinks(Entity entity, string operation, string filePath)
+        {
+            if (entity.OutboundLinks.Any())
+            {
+                foreach (var link in entity.OutboundLinks)
+                {
+                    var targetEntity = RemoteManager.DataService.GetEntity(link.Target.Id, LoadLevel.DataOnly);
+                    if (targetEntity.EntityType.Id != Resource.EntityTypeId)
+                    {
+                        CreateAndSendMessage(targetEntity, operation, filePath);
+                    }
+                }
+            }
         }
     }
 }
