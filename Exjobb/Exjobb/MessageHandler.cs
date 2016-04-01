@@ -40,6 +40,15 @@ namespace Exjobb
                 return;
             }
 
+            if (entity.EntityType.Id == Item.EntityTypeId)
+            {
+                var itemSizeField = entity.GetField(Item.ItemSizeFieldId);
+                if (itemSizeField != null)
+                {
+                    itemSizeField.Data = GetStringCvlFieldValue(itemSizeField);
+                }
+            }
+
             XDocument doc =
                 new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
@@ -82,6 +91,22 @@ namespace Exjobb
                     }
                 }
             }
+        }
+
+        private string GetStringCvlFieldValue(Field cvlField)
+        {
+            if (cvlField.IsEmpty())
+            {
+                return string.Empty;
+            }
+
+            CVLValue cvlValue = RemoteManager.ModelService.GetCVLValueByKey(cvlField.Data.ToString(), cvlField.FieldType.CVLId);
+            if (cvlValue == null || cvlValue.Value == null)
+            {
+                return string.Empty;
+            }
+
+            return cvlValue.Value.ToString();
         }
     }
 }
