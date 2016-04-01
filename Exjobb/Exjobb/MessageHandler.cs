@@ -45,7 +45,7 @@ namespace Exjobb
                 var itemSizeField = entity.GetField(Item.ItemSizeFieldId);
                 if (itemSizeField != null)
                 {
-                    itemSizeField.Data = GetStringCvlFieldValue(itemSizeField);
+                    itemSizeField.Data = GetItemSizeCvlValue(itemSizeField);
                 }
             }
 
@@ -93,14 +93,14 @@ namespace Exjobb
             }
         }
 
-        private string GetStringCvlFieldValue(Field cvlField)
+        private string GetItemSizeCvlValue(Field itemSizeCvlField)
         {
-            if (cvlField.IsEmpty())
+            if (itemSizeCvlField.IsEmpty())
             {
                 return string.Empty;
             }
 
-            CVLValue cvlValue = RemoteManager.ModelService.GetCVLValueByKey(cvlField.Data.ToString(), cvlField.FieldType.CVLId);
+            CVLValue cvlValue = RemoteManager.ModelService.GetCVLValueByKey(itemSizeCvlField.Data.ToString(), CvlConstants.itemSize);
             if (cvlValue == null || cvlValue.Value == null)
             {
                 return string.Empty;
