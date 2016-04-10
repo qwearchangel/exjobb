@@ -40,11 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ChannelNode.cs" />
+    <Compile Include="Constants\CvlConstants.cs" />
+    <Compile Include="Constants\Item.cs" />
+    <Compile Include="Constants\Operation.cs" />
+    <Compile Include="Constants\Product.cs" />
+    <Compile Include="Constants\Resource.cs" />
+    <Compile Include="Constants\Setting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Constants\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

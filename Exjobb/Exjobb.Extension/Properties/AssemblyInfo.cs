@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Exjobb.Outbound")]
+[assembly: AssemblyTitle("Exjobb.Extension")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Exjobb.Outbound")]
+[assembly: AssemblyProduct("Exjobb.Extension")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("37398030-cccc-4f78-8a9d-01c79a7f62c0")]
+[assembly: Guid("75a2e749-e852-491b-997d-8cd8a8e0264a")]
 
 // Version information for an assembly consists of the following four values:
 //
