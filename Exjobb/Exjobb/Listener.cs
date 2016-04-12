@@ -107,7 +107,6 @@ namespace Exjobb
             string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
             if (deletedEntity.EntityType.Id == Resource.EntityTypeId)
             {
-                deletedEntity = RemoteManager.DataService.GetEntity(deletedEntity.Id, LoadLevel.DataOnly);
                 string imagePath = ConfigurationManager.Instance.GetSetting(Id, Setting.ImageExportSettingKey);
                 _resourceHandler.DeleteResource(deletedEntity, imagePath);
                 return;
@@ -135,6 +134,7 @@ namespace Exjobb
             {
                 string imagePath = ConfigurationManager.Instance.GetSetting(Id, Setting.ImageExportSettingKey);
                 _resourceHandler.ExportResource(targetEntity, imagePath);
+                return;
             }
 
             string filePath = ConfigurationManager.Instance.GetSetting(Id, Setting.XmlExportSettingKey);
@@ -289,13 +289,13 @@ namespace Exjobb
                 return;
             }
 
-            var resourceNameId = ((string)entity.GetField(Resource.FileNameFieldId).Data).Substring(0, 10);
+            var resourceName = (entity.GetField(Resource.FileNameFieldId).Data).ToString().Substring(0, 10);
 
-            var resouceId = new string(resourceNameId.Where(Char.IsDigit).ToArray());
+            var resouceId = new string(resourceName.Where(Char.IsDigit).ToArray());
 
-            var productOrItemId = resouceId.Remove(resouceId.Length -2) ;
+            var itemId = resouceId.Remove(resouceId.Length -2) ;
 
-            if (productOrItemId.Length != 8)
+            if (itemId.Length != 8)
             {
                 return;
             }
@@ -304,12 +304,13 @@ namespace Exjobb
             {
                 FieldTypeId = Item.IdFieldId,
                 Operator = Operator.Equal,
-                Value = productOrItemId
+                Value = itemId
             },
             LoadLevel.Shallow);
 
             if (!itemEntities.Any())
             {
+                ReportManager.Instance.WriteError(Id, $"No item with id: {itemId} was found");
                 return;
             }
             var sourceEntity = itemEntities[0];

@@ -12,15 +12,18 @@ namespace Exjobb
 
         public void DeleteResource(Entity resource, string imagePath)
         {
-            File.Delete(imagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType);
+            var fileName = resource.GetField(Resource.FileNameFieldId).Data.ToString();
+            var path = Path.Combine(imagePath, fileName);
+            File.Delete(path + fileType);
         }
 
         public void ExportResource(Entity resource, string imagePath)
         {
             var resourceFile = RemoteManager.UtilityService.GetFile((int)resource.GetField(Resource.FileIdFieldId).Data, ImageConfiguration.Original);
-            var filePath = RemoteManager.UtilityService.GetServerSetting(Setting.ImageExportSettingKey);
-            Directory.CreateDirectory(filePath);
-            File.WriteAllBytes(imagePath + (string)resource.GetField(Resource.FileNameFieldId).Data + fileType, resourceFile);
+            var fileName = resource.GetField(Resource.FileNameFieldId).Data.ToString();
+            var path = Path.Combine(imagePath, fileName);
+            Directory.CreateDirectory(imagePath);
+            File.WriteAllBytes(path + fileType, resourceFile);
         }
     }
 }
